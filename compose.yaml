@@ -21,14 +21,18 @@ services:
       retries: 5
 
   api:
-      build: ./app
-      env_file: .env
-      ports:
-          - "8000:8000"
-
-      depends_on:
-        db:
-          condition: service_healthy
+    build: ./app
+    environment:
+      DB_HOST: db
+      DB_PORT: ${DB_PORT}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
 
 
 volumes:

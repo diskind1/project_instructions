@@ -1,9 +1,5 @@
 import mysql.connector
 from data_interactor import DatabaseServise
-cur = DatabaseServise()
-cur.connect_db
-cur.cursor
-
 
 class Contact:
     def __init__(self, first_name_contact, last_name_contact, phone_number_contact):
@@ -24,27 +20,39 @@ class Contact:
 
 
 class HandlingContacts:
+
+    @staticmethod
     def create_contact(contact_info: dict):
-        sql = "INSERT INTO Contact (first_name, last_name, phone_number) VALUES (%s, %s, %s)"
+        conn = DatabaseServise.get_connection()
+        sql = "INSERT INTO contacts (first_name, last_name, phone_number) VALUES (%s, %s, %s)"
         val = (contact_info["first_name"], contact_info["last_name"], contact_info["phone_number"])
-        cur.cursor.execute(sql, val)
+        conn.cursor().execute(sql, val)
         return("db has been updated")
 
+    @staticmethod
     def get_all_contacts():
-        sql = "SELECT * FROM Contact"
-        cntct = cur.cursor.execute(sql)
-        return cntct
+        conn = DatabaseServise.get_connection()
+        sql = "SELECT * FROM contacts"
+    
+        cursor = conn.cursor()
+        cursor.execute(sql)
+        contacts = cursor.fetchall()
+        return contacts
 
+    @staticmethod
     def update_contact(contact_info: dict, id):
-        sql = "UPDATE Contact SET first_name = %s, last_name = %s, phone_number = %s WHERE id = %s"
+        conn = DatabaseServise.get_connection()
+        sql = "UPDATE contacts SET first_name = %s, last_name = %s, phone_number = %s WHERE id = %s"
         val = (contact_info["first_name"], contact_info["last_name"], contact_info["phone_number"], id)
-        cur.cursor.execute(sql, val)
+        conn.cursor().execute(sql, val)
         return("db has been updated")
 
+    @staticmethod
     def delete_contact(id):
-        sql = "DELETE FROM Contact WHERE id = %s"
+        conn = DatabaseServise.get_connection()
+        sql = "DELETE FROM contacts WHERE id = %s"
         val = (id)
-        cur.cursor.execute(sql, val)
+        conn.cursor().execute(sql, val)
         return("db has been updated")
 
 
