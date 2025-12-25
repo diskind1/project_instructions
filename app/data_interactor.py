@@ -32,8 +32,3 @@ class DatabaseServise:
         DatabaseServise.connection = DatabaseServise.connect_to_db()
         return DatabaseServise.connection
         
-
-# with open("C:Users/menni/OneDrive/Documents/kodcode-file/exercise_idf/project_instructions/sql/init.sql", "r") as file:
-#     commands_list = file.read().split(";")
-#     for command in commands_list:
-#         cur.execute(command)
